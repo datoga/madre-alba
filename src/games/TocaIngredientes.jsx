@@ -3,7 +3,11 @@ import { generateIngredients } from '../utils/gameLogic'
 import ProgressBar from '../components/ProgressBar'
 
 export default function TocaIngredientes({ phase, onWin, onFail }) {
-  const [items, setItems] = useState(() => generateIngredients())
+  const startTime = useRef(Date.now())
+  const [items, setItems] = useState(() => {
+    const now = Date.now()
+    return generateIngredients().map(i => ({ ...i, createdAt: now }))
+  })
   const missedRef = useRef(0)
   const wonRef = useRef(false)
 
@@ -11,18 +15,16 @@ export default function TocaIngredientes({ phase, onWin, onFail }) {
     const timers = items.map(item =>
       setTimeout(() => {
         if (wonRef.current) return
-        setItems(prev => {
-          const next = prev.map(i => i.id === item.id ? { ...i, alive: false } : i)
-          missedRef.current += 1
-          if (missedRef.current >= 3) onFail()
-          return next
-        })
+        missedRef.current += 1
+        setItems(prev => prev.map(i => i.id === item.id ? { ...i, alive: false } : i))
+        if (missedRef.current >= 3) onFail()
       }, 2000)
     )
     return () => timers.forEach(clearTimeout)
   }, [])
 
   function handleClick(id) {
+    if (wonRef.current) return
     setItems(prev => {
       const next = prev.map(i => i.id === id ? { ...i, alive: false, clicked: true } : i)
       const allClicked = next.every(i => !i.alive)
@@ -53,7 +55,11 @@ export default function TocaIngredientes({ phase, onWin, onFail }) {
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200 rounded">
             <div
               className="h-1 bg-red-400 rounded"
-              style={{ animation: 'shrink 2s linear forwards', width: '100%' }}
+              style={{
+                animation: 'shrink 2s linear forwards',
+                animationDelay: `${-(Date.now() - item.createdAt)}ms`,
+                width: '100%'
+              }}
             />
           </div>
         </button>

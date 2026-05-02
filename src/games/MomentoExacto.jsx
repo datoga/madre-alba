@@ -6,6 +6,7 @@ export default function MomentoExacto({ phase, onWin, onFail }) {
   const [attempts, setAttempts] = useState([]) // true/false per attempt
   const [lastResult, setLastResult] = useState(null) // 'hit' | 'miss'
   const [greenHalf, setGreenHalf] = useState(15) // zona verde: 50% ± greenHalf, se estrecha en cada acierto
+  const [done, setDone] = useState(false)
   const dirRef = useRef(1)
   const posRef = useRef(0)
   const doneRef = useRef(false)
@@ -41,9 +42,11 @@ export default function MomentoExacto({ phase, onWin, onFail }) {
 
     if (hits >= NEEDED) {
       doneRef.current = true
+      setDone(true)
       setTimeout(onWin, 700)
     } else if (newAttempts.length === TOTAL && hits < NEEDED) {
       doneRef.current = true
+      setDone(true)
       setTimeout(onFail, 700)
     }
   }
@@ -87,7 +90,7 @@ export default function MomentoExacto({ phase, onWin, onFail }) {
 
       <button
         onClick={handlePress}
-        disabled={doneRef.current}
+        disabled={done}
         className="bg-pink-500 hover:bg-pink-600 active:scale-95 disabled:opacity-50 text-white font-black text-2xl px-12 py-5 rounded-full shadow-lg transition-all"
       >
         ¡PULSA!

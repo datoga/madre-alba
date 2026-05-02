@@ -83,13 +83,20 @@ export default function AtrapaIngredientes({ phase, onWin, onFail }) {
     setBasketX(((clientX - rect.left) / rect.width) * 100)
   }, [])
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const handler = (e) => { e.preventDefault(); handleMove(e) }
+    el.addEventListener('touchmove', handler, { passive: false })
+    return () => el.removeEventListener('touchmove', handler)
+  }, [handleMove])
+
   return (
     <div
       ref={containerRef}
       className="min-h-screen relative overflow-hidden cursor-none select-none"
       style={{ background: 'linear-gradient(180deg, #e3f2fd 0%, #fff9c4 100%)' }}
       onMouseMove={handleMove}
-      onTouchMove={handleMove}
     >
       <div className="pt-2 relative z-10">
         <ProgressBar currentPhase={phase} />
