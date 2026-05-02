@@ -35,5 +35,9 @@ export function useGameState() {
     setAppState('playing')
   }
 
-  return { appState, currentPhase, startGame, onWin, onFail, nextPhase, retryPhase, restartGame }
+  function showPrize() {
+    setAppState('prize')
+  }
+
+  return { appState, currentPhase, startGame, onWin, onFail, nextPhase, retryPhase, restartGame, showPrize }
 }

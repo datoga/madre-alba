@@ -1,4 +1,14 @@
-export default function WelcomeScreen({ onStart }) {
+import { useEffect } from 'react'
+
+export default function WelcomeScreen({ onStart, onPrize }) {
+  useEffect(() => {
+    function handleKey(e) {
+      if (e.key === 'v' || e.key === 'V') onPrize()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onPrize])
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-6"
          style={{ background: 'linear-gradient(135deg, #fff9c4, #ffcc80, #f48fb1)' }}>

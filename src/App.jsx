@@ -12,9 +12,9 @@ import MomentoExacto from './games/MomentoExacto'
 const GAMES = [null, TocaIngredientes, Parejas, OrdenaLetras, AtrapaIngredientes, MomentoExacto]
 
 export default function App() {
-  const { appState, currentPhase, startGame, onWin, onFail, nextPhase, retryPhase, restartGame } = useGameState()
+  const { appState, currentPhase, startGame, onWin, onFail, nextPhase, retryPhase, restartGame, showPrize } = useGameState()
 
-  if (appState === 'welcome') return <WelcomeScreen onStart={startGame} />
+  if (appState === 'welcome') return <WelcomeScreen onStart={startGame} onPrize={showPrize} />
   if (appState === 'phase-complete') return <PhaseCompleteScreen phase={currentPhase} onNext={nextPhase} />
   if (appState === 'game-over') return <GameOverScreen phase={currentPhase} onRetry={retryPhase} onRestart={restartGame} />
   if (appState === 'prize') return <PrizeScreen />
