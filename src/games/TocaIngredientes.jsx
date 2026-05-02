@@ -18,7 +18,7 @@ export default function TocaIngredientes({ phase, onWin, onFail }) {
         missedRef.current += 1
         setItems(prev => prev.map(i => i.id === item.id ? { ...i, alive: false } : i))
         if (missedRef.current >= 3) onFail()
-      }, 4000)
+      }, 10000)
     )
     return () => timers.forEach(clearTimeout)
   }, [])
@@ -56,7 +56,7 @@ export default function TocaIngredientes({ phase, onWin, onFail }) {
             <div
               className="h-1 bg-red-400 rounded"
               style={{
-                animation: 'shrink 4s linear forwards',
+                animation: 'shrink 10s linear forwards',
                 animationDelay: `${-(Date.now() - item.createdAt)}ms`,
                 width: '100%'
               }}
