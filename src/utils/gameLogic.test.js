@@ -21,7 +21,7 @@ describe('scrambleWord', () => {
   it('never returns the original word', () => {
     const word = 'CACHOPO'
     const results = Array.from({ length: 10 }, () => scrambleWord(word))
-    expect(results.some(r => r !== word)).toBe(true)
+    expect(results.every(r => r !== word)).toBe(true)
   })
 })
 
