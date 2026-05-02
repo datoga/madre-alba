@@ -8,7 +8,7 @@ function randomItem(id) {
     emoji: INGREDIENTS[Math.floor(Math.random() * INGREDIENTS.length)],
     x: 5 + Math.random() * 85,
     y: -10,
-    speed: 1.5 + Math.random() * 1.5,
+    speed: 0.4 + Math.random() * 0.3,
   }
 }
 
